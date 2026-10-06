@@ -1,0 +1,177 @@
+[
+  {
+    "package": "PyMuPDF",
+    "version": "1.28.2",
+    "file": "pymupdf-1.28.2.tar.gz",
+    "url": "https://files.pythonhosted.org/packages/a3/fb/b6761fa2d5266f2cdb24c3b91f4023070ab7848381417678e7a289a1d52a/pymupdf-1.28.2.tar.gz",
+    "sha256": "5e0be7908a715aa20333caddd73f1d6f01e4cd0c26e869fa2dd0b7f344da2249",
+    "bytes": 87903557
+  },
+  {
+    "package": "Pillow",
+    "version": "12.3.0",
+    "file": "pillow-12.3.0.tar.gz",
+    "url": "https://files.pythonhosted.org/packages/1c/3d/bb7fca845737cf9d7dbde16ed1843984665ff2e0a518f5db43e77ec540b9/pillow-12.3.0.tar.gz",
+    "sha256": "3b8182a766685eaa002637e28b4ec8d6b18819a0c71f579bf0dbaa5830297cce",
+    "bytes": 47025035
+  },
+  {
+    "package": "pyinstaller",
+    "version": "6.22.3",
+    "file": "pyinstaller-6.22.3.tar.gz",
+    "url": "https://files.pythonhosted.org/packages/63/41/f90302845945abd4ed647933ff5ee7c6ac93983187be67f897b6cb613331/pyinstaller-6.22.3.tar.gz",
+    "sha256": "05eb2f5615503e72939a7224d68b4aff572c6b0438ee4a17d0a4b481f399362d",
+    "bytes": 4437180
+  },
+  {
+    "package": "pyinstaller-hooks-contrib",
+    "version": "2026.8",
+    "file": "pyinstaller_hooks_contrib-2026.8.tar.gz",
+    "url": "https://files.pythonhosted.org/packages/c9/3b/fab1a12a21bf9223af012e5dd002b7d4265683d21d9fabbd0ccb347316e4/pyinstaller_hooks_contrib-2026.8.tar.gz",
+    "sha256": "4d825786ad7a9b7dbcc52d612748a34562fe273461bcfd88f4d549c594bbf8f9",
+    "bytes": 176955
+  },
+  {
+    "package": "MuPDF",
+    "version": "1.28.2",
+    "file": "mupdf-1.28.2-source.tar.gz",
+    "url": "https://mupdf.com/downloads/archive/mupdf-1.28.2-source.tar.gz",
+    "sha256": "44075a84e329db55b9bef5f342a70fd26d69e48ad1d33cb89d9664581c641156",
+    "bytes": 68898646
+  },
+  {
+    "package": "Pillow native: libjpeg-turbo",
+    "version": "3.1.4.1",
+    "file": "libjpeg-turbo-3.1.4.1.tar.gz",
+    "url": "https://raw.githubusercontent.com/python-pillow/pillow-depends/93950a8f9ada1165a4ab8c719326d5017e3f6c72/libjpeg-turbo-3.1.4.1.tar.gz",
+    "sha256": "ecae8008e2cc9ade2f2c1bb9d5e6d4fb73e7c433866a056bd82980741571a022",
+    "bytes": 2528617,
+    "buildRecipe": "pillow-12.3.0/winbuild/build_prepare.py (upstream patches preserved)"
+  },
+  {
+    "package": "Pillow native: zlib-ng",
+    "version": "2.3.3",
+    "file": "zlib-ng-2.3.3.tar.gz",
+    "url": "https://raw.githubusercontent.com/python-pillow/pillow-depends/93950a8f9ada1165a4ab8c719326d5017e3f6c72/2.3.3.tar.gz",
+    "sha256": "f9c65aa9c852eb8255b636fd9f07ce1c406f061ec19a2e7d508b318ca0c907d1",
+    "bytes": 2447397,
+    "buildRecipe": "pillow-12.3.0/winbuild/build_prepare.py (upstream patches preserved)"
+  },
+  {
+    "package": "Pillow native: xz",
+    "version": "5.8.3",
+    "file": "xz-5.8.3.tar.gz",
+    "url": "https://raw.githubusercontent.com/python-pillow/pillow-depends/93950a8f9ada1165a4ab8c719326d5017e3f6c72/xz-5.8.3.tar.gz",
+    "sha256": "3d3a1b973af218114f4f889bbaa2f4c037deaae0c8e815eec381c3d546b974a0",
+    "bytes": 2771455,
+    "buildRecipe": "pillow-12.3.0/winbuild/build_prepare.py (upstream patches preserved)"
+  },
+  {
+    "package": "Pillow native: libwebp",
+    "version": "1.6.0",
+    "file": "libwebp-1.6.0.tar.gz",
+    "url": "https://raw.githubusercontent.com/python-pillow/pillow-depends/93950a8f9ada1165a4ab8c719326d5017e3f6c72/libwebp-1.6.0.tar.gz",
+    "sha256": "e4ab7009bf0629fd11982d4c2aa83964cf244cffba7347ecd39019a9e38c4564",
+    "bytes": 4296070,
+    "buildRecipe": "pillow-12.3.0/winbuild/build_prepare.py (upstream patches preserved)"
+  },
+  {
+    "package": "Pillow native: tiff",
+    "version": "4.7.1",
+    "file": "tiff-4.7.1.tar.gz",
+    "url": "https://raw.githubusercontent.com/python-pillow/pillow-depends/93950a8f9ada1165a4ab8c719326d5017e3f6c72/tiff-4.7.1.tar.gz",
+    "sha256": "f698d94f3103da8ca7438d84e0344e453fe0ba3b7486e04c5bf7a9a3fabe9b69",
+    "bytes": 4000609,
+    "buildRecipe": "pillow-12.3.0/winbuild/build_prepare.py (upstream patches preserved)"
+  },
+  {
+    "package": "Pillow native: libpng",
+    "version": "1.6.58",
+    "file": "libpng-1.6.58.tar.gz",
+    "url": "https://raw.githubusercontent.com/python-pillow/pillow-depends/93950a8f9ada1165a4ab8c719326d5017e3f6c72/libpng-1.6.58.tar.gz",
+    "sha256": "a9d4df463d36a6e5f9c29bd6f4967312d17e996c1854f3511f833924eb1993cf",
+    "bytes": 1592190,
+    "buildRecipe": "pillow-12.3.0/winbuild/build_prepare.py (upstream patches preserved)"
+  },
+  {
+    "package": "Pillow native: brotli",
+    "version": "1.2.0",
+    "file": "brotli-1.2.0.tar.gz",
+    "url": "https://raw.githubusercontent.com/python-pillow/pillow-depends/93950a8f9ada1165a4ab8c719326d5017e3f6c72/brotli-1.2.0.tar.gz",
+    "sha256": "816c96e8e8f193b40151dad7e8ff37b1221d019dbcb9c35cd3fadbfe6477dfec",
+    "bytes": 646315,
+    "buildRecipe": "pillow-12.3.0/winbuild/build_prepare.py (upstream patches preserved)"
+  },
+  {
+    "package": "Pillow native: freetype",
+    "version": "2.14.3",
+    "file": "freetype-2.14.3.tar.gz",
+    "url": "https://raw.githubusercontent.com/python-pillow/pillow-depends/93950a8f9ada1165a4ab8c719326d5017e3f6c72/freetype-2.14.3.tar.gz",
+    "sha256": "e61b31ab26358b946e767ed7eb7f4bb2e507da1cfefeb7a8861ace7fd5c899a1",
+    "bytes": 4134916,
+    "buildRecipe": "pillow-12.3.0/winbuild/build_prepare.py (upstream patches preserved)"
+  },
+  {
+    "package": "Pillow native: lcms2",
+    "version": "2.19.1",
+    "file": "lcms2-2.19.1.tar.gz",
+    "url": "https://raw.githubusercontent.com/python-pillow/pillow-depends/93950a8f9ada1165a4ab8c719326d5017e3f6c72/lcms2-2.19.1.tar.gz",
+    "sha256": "bfc54f7bab59fbc921012014a8032e4cba4abd46db47d46b76416a8c0b2815c8",
+    "bytes": 5728743,
+    "buildRecipe": "pillow-12.3.0/winbuild/build_prepare.py (upstream patches preserved)"
+  },
+  {
+    "package": "Pillow native: openjpeg",
+    "version": "2.5.4",
+    "file": "openjpeg-2.5.4.tar.gz",
+    "url": "https://raw.githubusercontent.com/python-pillow/pillow-depends/93950a8f9ada1165a4ab8c719326d5017e3f6c72/openjpeg-2.5.4.tar.gz",
+    "sha256": "a695fbe19c0165f295a8531b1e4e855cd94d0875d2f88ec4b61080677e27188a",
+    "bytes": 2157028,
+    "buildRecipe": "pillow-12.3.0/winbuild/build_prepare.py (upstream patches preserved)"
+  },
+  {
+    "package": "Pillow native: harfbuzz",
+    "version": "14.2.1",
+    "file": "harfbuzz-14.2.1.tar.xz",
+    "url": "https://raw.githubusercontent.com/python-pillow/pillow-depends/93950a8f9ada1165a4ab8c719326d5017e3f6c72/harfbuzz-14.2.1.tar.xz",
+    "sha256": "a54a5d8e9380a41fbb762ce367bcbf7704792dfca0d93f1bbca86c5a57902e0e",
+    "bytes": 19559952,
+    "buildRecipe": "pillow-12.3.0/winbuild/build_prepare.py (upstream patches preserved)"
+  },
+  {
+    "package": "Pillow native: libavif",
+    "version": "1.4.2",
+    "file": "libavif-1.4.2.tar.gz",
+    "url": "https://raw.githubusercontent.com/python-pillow/pillow-depends/93950a8f9ada1165a4ab8c719326d5017e3f6c72/libavif-1.4.2.tar.gz",
+    "sha256": "2b645287340ba5a631d268b551dc2d72bd73ac33335962dd36dcdb6d8366921d",
+    "bytes": 14665927,
+    "buildRecipe": "pillow-12.3.0/winbuild/build_prepare.py (upstream patches preserved)"
+  },
+  {
+    "package": "libavif native: libaom",
+    "version": "3.14.1",
+    "file": "libaom-3.14.1.tar.gz",
+    "url": "https://aomedia.googlesource.com/aom/+archive/refs/tags/v3.14.1.tar.gz",
+    "sha256": "436941382bfd5ef8ad85860c33d34e2bd532ab6f2dafa80b544a1262d2b2e882",
+    "bytes": 6438717,
+    "buildRecipe": "libavif-1.4.2/cmake/Modules/Local*.cmake"
+  },
+  {
+    "package": "libavif native: dav1d",
+    "version": "1.5.3",
+    "file": "dav1d-1.5.3.tar.gz",
+    "url": "https://codeload.github.com/videolan/dav1d/tar.gz/refs/tags/1.5.3",
+    "sha256": "cbe212b02faf8c6eed5b6d55ef8a6e363aaab83f15112e960701a9c3df813686",
+    "bytes": 1713950,
+    "buildRecipe": "libavif-1.4.2/cmake/Modules/Local*.cmake"
+  },
+  {
+    "package": "libavif native: libyuv",
+    "version": "644251f252a84bf8ce91ff0aca86a9b16b069ab8",
+    "file": "libyuv-644251f252a84bf8ce91ff0aca86a9b16b069ab8.tar.gz",
+    "url": "https://chromium.googlesource.com/libyuv/libyuv/+archive/644251f252a84bf8ce91ff0aca86a9b16b069ab8.tar.gz",
+    "sha256": "923747d54dc203b67e6f42120345dbdffeccdc9fc9883a7bf6342a2c73a4bc02",
+    "bytes": 598293,
+    "buildRecipe": "libavif-1.4.2/cmake/Modules/Local*.cmake"
+  }
+]

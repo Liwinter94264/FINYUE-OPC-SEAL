@@ -1,0 +1,10 @@
+{
+  "asset": "auth-decoration-v1.png",
+  "created": "2026-10-06",
+  "source": "OpenAI built-in image generation",
+  "purpose": "Anonymous decorative still life for login and registration",
+  "sha256": "665f658826b35040bf23c708c67ea44bda8b86c9ced402a7322cad29a79e62ab",
+  "privateIdentity": false,
+  "brandCharacter": false,
+  "prompt": "Use case: stylized-concept. Asset type: decorative illustration panel for a Chinese offline Windows PDF stamping application login/register page. Primary request: a beautiful quiet editorial still life of blank cream paper sheets, an elegant ink pen, a small terracotta wooden-handled rubber stamp with no text or imprint, and soft sculptural sage-green folded paper ribbons, on a warm ivory surface. Style: refined tactile 3D clay and paper illustration, clean contemporary software design, gentle ambient shadows, soft morning studio lighting. Palette: warm ivory #f5f3ee, muted sage #8da494 and forest green #29483e, a small terracotta accent. Composition: landscape 3:2, objects grouped in the bottom right two thirds, generous clean negative space in the top left for interface copy; low visual density, beautiful restrained materials. Constraints: absolutely no words, letters, numbers, logo, watermark, real documents, business names, people, mascot, signature, official seal or emblems. This is an abstract decoration, never a usable seal. No interface widgets drawn into the image."
+}
