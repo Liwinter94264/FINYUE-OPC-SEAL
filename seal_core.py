@@ -10,7 +10,7 @@ from text_layer import text_png, text_dimensions
 from legal_text import legal_manifest
 
 COMPANY = "示例企业"
-ADMIN_ID = "10001"
+ADMIN_ID = "00001"
 
 def digest(data):
     return hashlib.sha256(data).hexdigest()

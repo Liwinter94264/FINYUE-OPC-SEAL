@@ -576,7 +576,8 @@ def smoke_test(target):
         gui2=tk.Tk();gui2.withdraw();app2=App(gui2,SealStore(Path(root)/'data'))
         assert app2.token is None
         assert app2.auth_button.cget('text')=='登录工作台'
-        app2.user.set(ADMIN_ID);app2.password.set('Synthetic-Test-Only-2026');app2.auth_submit()
+        assert app2.user.get()=='00001'
+        app2.password.set('Synthetic-Test-Only-2026');app2.auth_submit()
         assert app2.token and app2.store.actor(app2.token)['id']==ADMIN_ID
         from release_info import license_documents
         notices=license_documents()

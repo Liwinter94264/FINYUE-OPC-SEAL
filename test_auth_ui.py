@@ -27,20 +27,27 @@ class AuthUITests(unittest.TestCase):
         self.app.legal_accepted.set(True);self.app.auth_submit()
 
     def test_register_logout_new_applicant_and_reopen_password_login(self):
-        self.fill_registration('10001');self.assertTrue(self.store.actor(self.app.token)['admin'])
-        self.app.logout();build_auth(self.app,'register');self.fill_registration('10002')
+        self.assertEqual(self.app.user.get(),'00001')
+        self.fill_registration(self.app.user.get());self.assertTrue(self.store.actor(self.app.token)['admin'])
+        self.assertEqual(self.store.actor(self.app.token)['id'],'00001')
+        self.app.logout();build_auth(self.app,'register');self.fill_registration('00002')
         self.assertFalse(self.store.actor(self.app.token)['admin'])
         self.cache.restore.assert_not_called();self.cache.remember.assert_not_called()
         self.app.clear();self.root.destroy();self.root=tk.Tk();self.root.withdraw()
         self.app=App(self.root,SealStore(self.store.root),self.cache)
         self.assertIsNone(self.app.token);self.assertEqual(self.app.auth_button.cget('text'),'登录工作台')
-        self.app.user.set('10002');self.app.password.set(PASSWORD);self.app.auth_submit()
-        self.assertEqual(self.app.store.actor(self.app.token)['id'],'10002')
+        self.assertEqual(self.app.user.get(),'00001')
+        self.app.user.set('00002');self.app.password.set(PASSWORD);self.app.auth_submit()
+        self.assertEqual(self.app.store.actor(self.app.token)['id'],'00002')
         self.assertEqual(self.app.password.get(),'')
 
     def test_old_password_login_gates_workspace_until_consent(self):
-        self.store.setup_admin(PASSWORD,'合成旧账号','54321');build_auth(self.app,'login')
-        self.app.user.set('54321');self.app.password.set(PASSWORD);self.app.auth_submit()
+        self.store.setup_admin(PASSWORD,'合成旧账号','10001');build_auth(self.app,'login')
+        self.assertEqual(self.app.user.get(),'00001')
+        self.app.user.set('10001');self.app.password.set(PASSWORD);self.app.auth_submit()
+        self.assertEqual(self.store.actor(self.app.token)['id'],'10001')
+        with self.store.db() as db:
+            self.assertIsNone(db.execute('SELECT id FROM users WHERE id=?',('00001',)).fetchone())
         self.assertIsNotNone(self.app.token);self.assertFalse(self.store.has_current_consent(self.app.token))
         self.assertEqual(self.app.auth_button.cget('text'),'同意并继续')
         self.app.auth_submit();self.assertTrue(self.app.auth_error.get())
