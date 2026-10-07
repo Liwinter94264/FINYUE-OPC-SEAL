@@ -1,7 +1,7 @@
 """Public product identity. Contains no account, credential or local settings."""
 from pathlib import Path
 
-VERSION = '1.0.1'
+VERSION = '1.0.2'
 PRODUCT = 'FINYUE · OPC盖章'
 PUBLISHER = '凛野（北京）文化传媒有限公司'
 REPOSITORY = 'https://github.com/Liwinter94264/FINYUE-OPC-SEAL'

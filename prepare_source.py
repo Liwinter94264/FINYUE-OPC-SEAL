@@ -3,10 +3,10 @@ import argparse,hashlib,json,zipfile
 from pathlib import Path
 
 FILES=('app.py','seal_core.py','local_session.py','signatures.py','text_layer.py',
-       'ui_theme.py','ui_layout.py','ui_auth.py','login_policy.py','legal_text.py','release_info.py',
+       'ui_theme.py','ui_layout.py','ui_auth.py','ui_signature.py','login_policy.py','legal_text.py','release_info.py',
        'requirements.txt','OPC盖章.spec','README.md',
        'test_seal_core.py','test_signature_session.py','test_export_undo.py','test_profile.py',
-       'test_registration.py','test_auth_ui.py','prepare_source.py','make_example.py',
+       'test_registration.py','test_auth_ui.py','test_handwriting_ui.py','prepare_source.py','make_example.py',
        'LICENSE','COPYRIGHT.md','SECURITY.md','.gitignore','.gitattributes','UPSTREAM-SOURCES.json',
        'THIRD-PARTY-NOTICES.md','assets/auth-decoration-v1.png',
        'assets/auth-decoration-v1.source.json')

@@ -5,7 +5,7 @@ from PIL import Image, ImageDraw
 import pymupdf as fitz
 from seal_core import SealStore, ADMIN_ID
 from local_session import SessionCache, windows_context
-from signatures import import_signature, kai_signature
+from signatures import import_signature, handwritten_signature
 from text_layer import date_labels, today_parts, text_dimensions
 
 class SignatureSessionTests(unittest.TestCase):
@@ -42,11 +42,28 @@ class SignatureSessionTests(unittest.TestCase):
         for data in (b'bad image',white.getvalue(),b'x'*(10*1024*1024+1)):
             with self.assertRaises(ValueError):import_signature(data)
 
-    def test_kai_generates_and_rejects_invalid_names(self):
-        with Image.open(io.BytesIO(kai_signature('合成测试'))) as im:
+    def test_handwriting_retains_pen_lifts_and_rejects_blank_or_invalid_input(self):
+        strokes=[[(20,30),(100,30)],[(300,30),(400,30)]]
+        with Image.open(io.BytesIO(handwritten_signature(strokes))) as im:
             self.assertGreater(im.width,im.height);self.assertEqual(im.mode,'RGBA')
-        for name in ('','x'*21,'合成\n测试','☃'):
-            with self.assertRaises(ValueError):kai_signature(name)
+            self.assertEqual(im.getpixel((0,0))[3],0)
+            self.assertEqual(im.getchannel('A').crop((140,0,260,im.height)).getbbox(),None)
+            self.assertGreater(im.getchannel('A').getextrema()[1],240)
+        for strokes in ([],[[]],[[(3,3)]],[[(0,0),(float('nan'),4)]],
+                        [[(-1,2),(3,4)]],[[(True,2),(5,6)]],[[(0,0),(681,2)]]):
+            with self.subTest(strokes=strokes),self.assertRaises(ValueError):handwritten_signature(strokes)
+
+    def test_drawn_asset_persists_and_legacy_kai_asset_remains_usable(self):
+        asset=self.store.create_signature(self.admin,strokes=[[(20,80),(80,20),(100,90)]])
+        original=self.store.signature(self.admin,asset)
+        with self.store.db() as db:
+            self.assertEqual(db.execute('SELECT kind FROM signatures WHERE id=?',(asset,)).fetchone()[0],'drawn')
+            # Existing images of name lettering remain compatible, without re-rendering.
+            db.execute('UPDATE signatures SET kind=? WHERE id=?',('kai',asset))
+        reopened=SealStore(self.store.root);token=reopened.login(ADMIN_ID,'Synthetic-Admin-Only')
+        self.assertEqual(reopened.signature(token,asset),original)
+        rid=reopened.submit(token,self.pdf,dict(self.params_with_sig(asset),seal_enabled=False))
+        self.assertTrue(reopened.output(token,rid).exists())
 
     def test_signature_and_seal_different_pages_approval_and_snapshot(self):
         asset=self.sig(self.user);params=self.params_with_sig(asset);original=self.pdf.read_bytes()

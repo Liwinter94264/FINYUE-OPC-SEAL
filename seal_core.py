@@ -5,7 +5,7 @@ from pathlib import Path
 from contextlib import contextmanager
 import pymupdf as fitz
 from PIL import Image, ImageDraw, ImageFont
-from signatures import kai_signature, import_signature
+from signatures import handwritten_signature, import_signature
 from text_layer import text_png, text_dimensions
 from legal_text import legal_manifest
 
@@ -247,15 +247,15 @@ class SealStore:
     def revoke_remembered(self,secret):
         with self.db() as db:db.execute('DELETE FROM remembered_sessions WHERE token_hash=?',(digest(secret.encode()),))
 
-    def create_signature(self,token,name=None,image=None):
+    def create_signature(self,token,image=None,strokes=None):
         actor=self.actor(token)
-        if (name is None)==(image is None):raise ValueError('请选择姓名生成或图片导入。')
-        data=kai_signature(name) if name is not None else import_signature(image)
+        if (strokes is None)==(image is None):raise ValueError('请选择本人手写或图片导入。')
+        data=handwritten_signature(strokes) if strokes is not None else import_signature(image)
         asset_id=uuid.uuid4().hex;path=self.root/'signatures'/f'{asset_id}.png'
         path.write_bytes(data)
         try:
             with self.db() as db:
-                db.execute('INSERT INTO signatures VALUES(?,?,?,?,?)',(asset_id,actor['id'],digest(data),'kai' if name is not None else 'image',time.time()))
+                db.execute('INSERT INTO signatures VALUES(?,?,?,?,?)',(asset_id,actor['id'],digest(data),'drawn' if strokes is not None else 'image',time.time()))
                 self.audit(db,actor['id'],'create_signature',None,asset_id)
         except Exception:path.unlink(missing_ok=True);raise
         return asset_id

@@ -1,22 +1,45 @@
-"""Local signature assets: Kai-style name lettering or the user's own ink image."""
-import io, os, re
-from pathlib import Path
-from PIL import Image, ImageDraw, ImageFont, ImageOps
+"""Local signature assets from the user's mouse strokes or own ink image."""
+import io, math
+from PIL import Image, ImageDraw, ImageOps
+
+PAD_WIDTH, PAD_HEIGHT = 680, 250
+PEN_WIDTH = 3
 
 def _png(image):
     out=io.BytesIO();image.save(out,format='PNG');return out.getvalue()
 
-def kai_signature(name):
-    name=name.strip()
-    if not re.fullmatch(r'[\u3400-\u9fffA-Za-z0-9· ]{1,20}',name):
-        raise ValueError('签名请填写1至20个汉字、字母或数字。')
-    font_path=Path(os.environ.get('WINDIR','C:/Windows'))/'Fonts/simkai.ttf'
-    if not font_path.exists():raise ValueError('本机未安装Windows楷体，请导入本人签名图片。')
-    font=ImageFont.truetype(str(font_path),180)
-    box=font.getbbox(name);width=box[2]-box[0];height=box[3]-box[1]
-    image=Image.new('RGBA',(width+36,height+36))
-    ImageDraw.Draw(image).text((18-box[0],18-box[1]),name,font=font,fill=(18,18,18,255))
-    return _png(image)
+def handwritten_signature(strokes):
+    """Rasterize actual input geometry, with rounded ends and antialiased edges."""
+    if not isinstance(strokes,(list,tuple)) or not 1<=len(strokes)<=2000:
+        raise ValueError('请先在签名框内书写，再保存字迹。')
+    points=[];clean=[]
+    for stroke in strokes:
+        if not isinstance(stroke,(list,tuple)) or not stroke:
+            raise ValueError('手写笔迹无效，请清空后重新书写。')
+        line=[]
+        for point in stroke:
+            if not isinstance(point,(list,tuple)) or len(point)!=2:
+                raise ValueError('手写笔迹坐标无效。')
+            x,y=point
+            if any(isinstance(v,bool) or not isinstance(v,(int,float)) or not math.isfinite(v) for v in (x,y)) or not (0<=x<=PAD_WIDTH and 0<=y<=PAD_HEIGHT):
+                raise ValueError('请在签名框内书写。')
+            line.append((x,y));points.append((x,y))
+            if len(points)>50000:raise ValueError('笔迹过多，请清空后重新书写。')
+        clean.append(line)
+    xs,ys=zip(*points)
+    if max(max(xs)-min(xs),max(ys)-min(ys))<4:
+        raise ValueError('未找到完整笔迹，请书写后再保存。')
+    scale=3;radius=PEN_WIDTH*scale/2
+    image=Image.new('RGBA',((PAD_WIDTH+PEN_WIDTH*2)*scale,(PAD_HEIGHT+PEN_WIDTH*2)*scale))
+    draw=ImageDraw.Draw(image);ink=(18,18,18,255)
+    for stroke in clean:
+        line=[((x+PEN_WIDTH)*scale,(y+PEN_WIDTH)*scale) for x,y in stroke]
+        if len(line)>1:draw.line(line,fill=ink,width=PEN_WIDTH*scale,joint='curve')
+        for x,y in line:draw.ellipse((x-radius,y-radius,x+radius,y+radius),fill=ink)
+    image=image.resize((PAD_WIDTH+PEN_WIDTH*2,PAD_HEIGHT+PEN_WIDTH*2),Image.Resampling.LANCZOS)
+    bbox=image.getchannel('A').getbbox();ink=image.crop(bbox)
+    result=Image.new('RGBA',(ink.width+24,ink.height+24));result.alpha_composite(ink,(12,12))
+    return _png(result)
 
 def import_signature(data):
     if len(data)>10*1024*1024:raise ValueError('签名图片不得超过10MB。')

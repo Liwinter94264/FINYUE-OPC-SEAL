@@ -85,7 +85,7 @@ class ExportUndoTests(unittest.TestCase):
             app.undo();self.assertEqual(app.position,original_position)
             app.labels=[dict(text='测试日期',page=0,x=30,y=30,font_size=12)];app.marker()
             app.undo();self.assertEqual(app.labels,[])
-            asset=self.store.create_signature(self.admin,name='合成测试')
+            asset=self.store.create_signature(self.admin,strokes=[[(20,80),(80,20),(130,90)]])
             with patch('app.tk.Toplevel') as preview,patch('app.ttk.Label'),patch('app.ttk.Button'):
                 app.set_signature(asset)
             self.assertTrue(app.sig_enabled.get());app.undo();self.assertFalse(app.sig_enabled.get())

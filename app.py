@@ -140,9 +140,11 @@ class App:
     def make_signature(self):
         def run():
             if self.selected:raise ValueError('请先选择新PDF。审核时不能替换申请人的签名。')
-            name=simpledialog.askstring('楷书签名','填写本人姓名，生成端正楷书字样；使用前请核对预览。',initialvalue=self.store.actor(self.token)['name'],parent=self.root)
-            if name is None:return
-            self.set_signature(self.store.create_signature(self.token,name=name))
+            from ui_signature import SignaturePad
+            def save(strokes):
+                asset=self.store.create_signature(self.token,strokes=strokes)
+                self.set_signature(asset)
+            self.signature_pad=SignaturePad(self.root,save)
         self.safe(run)
 
     def import_signature(self):
@@ -162,13 +164,13 @@ class App:
         preview=tk.Toplevel(self.root);preview.title('签名预览');preview.transient(self.root)
         im=Image.open(io.BytesIO(self.signature_png));im.thumbnail((460,180),Image.Resampling.LANCZOS)
         photo=ImageTk.PhotoImage(im);label=ttk.Label(preview,image=photo,padding=18);label.image=photo;label.pack()
-        ttk.Label(preview,text='请核对字样后，在PDF中点选签名位置。',padding=10).pack()
+        ttk.Label(preview,text='请核对笔迹后，在PDF中点选签名位置。',padding=10).pack()
         ttk.Button(preview,text='确认预览',command=preview.destroy).pack(pady=10)
 
     def redraw_markers(self):self.safe(self.draw)
 
     def signature_dimensions(self):
-        if not self.signature_png:raise ValueError('请先生成或导入本人签名。')
+        if not self.signature_png:raise ValueError('请先添加手写签名或导入本人签名图片。')
         width=float(self.sig_width.get())*72/25.4
         with Image.open(io.BytesIO(self.signature_png)) as im:height=width*im.height/im.width
         if not 10<=width<=350 or not 4<=height<=160:raise ValueError('请调整签名宽度，使签名完整且大小合适。')
@@ -266,7 +268,7 @@ class App:
         can_withdraw=row and (row['status']=='pending' or (admin and row['status']=='approved'))
         self.withdraw_button.configure(state='normal' if can_withdraw else 'disabled')
         self.undo_button.configure(state='normal' if self.undo_stack and self.editable() else 'disabled')
-        for b in (self.kai_button,self.import_button,self.seal_check,self.sig_check,self.date_button,self.text_button,self.edit_text_button,self.remove_text_button):b.configure(state='disabled' if row else 'normal')
+        for b in (self.handwrite_button,self.import_button,self.seal_check,self.sig_check,self.date_button,self.text_button,self.edit_text_button,self.remove_text_button):b.configure(state='disabled' if row else 'normal')
         can_position=bool(self.pdf and self.editable())
         for widget in (self.bottom_right_button,self.seal_size_input,self.signature_size_input,self.text_size_input):
             widget.configure(state='normal' if can_position else 'disabled')
@@ -553,7 +555,13 @@ def smoke_test(target):
         gui=tk.Tk();gui.withdraw()
         app=App(gui,store);app.token=token;app.show_main()
         app.selected=rid;app.load(output.read_bytes(),dict(page=0,x=420,y=680,size=110));app.buttons()
-        asset=store.create_signature(token,name='合成测试')
+        app.selected=None;app.make_signature();pad=app.signature_pad
+        from types import SimpleNamespace
+        pad.start(SimpleNamespace(x=41,y=121))
+        for x,y in [(81,41),(121,131),(191,51),(241,121)]:pad.move(SimpleNamespace(x=x,y=y))
+        pad.end();pad.save()
+        asset=app.signature_asset
+        assert asset and app.sig_enabled.get() and not pad.window.winfo_exists()
         sig=dict(asset_id=asset,page=0,x=80,y=680,width=140,height=45)
         label=dict(text='2026年10月6日',font_size=12,page=0,x=80,y=740)
         rid2=store.submit(token,source,dict(page=0,x=420,y=680,size=110,signature=sig,labels=[label]))
@@ -585,7 +593,7 @@ def smoke_test(target):
         assert 'Pillow-LICENSE' in notices['third-party'][1]
         app2.logout();assert app2.token is None
         gui2.update();app2.clear();gui2.destroy()
-        Path(target).write_text(json.dumps({'status':'passed','pdfStamp':True,'tkRuntime':True,'guiWidgets':True,'stampedPreview':True,'signatureOverlay':True,'textOverlay':True,'oldSessionIgnored':True,'passwordLoginOnReopen':True,'offlineLicenses':True,'logoutRevokes':True,'actualUIExport':True,'editUndo':True,'revokedExportBlocked':True,'syntheticOnly':True}),encoding='utf-8')
+        Path(target).write_text(json.dumps({'status':'passed','mouseHandwritingSaved':True,'pdfStamp':True,'tkRuntime':True,'guiWidgets':True,'stampedPreview':True,'signatureOverlay':True,'textOverlay':True,'oldSessionIgnored':True,'passwordLoginOnReopen':True,'offlineLicenses':True,'logoutRevokes':True,'actualUIExport':True,'editUndo':True,'revokedExportBlocked':True,'syntheticOnly':True}),encoding='utf-8')
 
 if __name__=='__main__':
     if len(sys.argv)==3 and sys.argv[1]=='--smoke-test':
